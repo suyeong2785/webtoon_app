@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">chapter1</string>
+    <string name="app_name" translatable="false">webtoonApp</string>
+    <string name="back_to_history">back to last</string>
+    <string name="change_tab_name">change tab name</string>
 </resources>
