@@ -2,13 +2,16 @@ package com.example.chapter1
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Gravity
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import android.widget.TextView
 import android.window.OnBackInvokedDispatcher
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.addCallback
 import androidx.fragment.app.FragmentManager
 import com.example.chapter1.databinding.ActivityMainBinding
+import com.google.android.material.tabs.TabLayoutMediator
 
 class MainActivity : AppCompatActivity() {
 
@@ -19,25 +22,22 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val container = binding.fragmentContainer
+        binding.viewPager.adapter = ViewPagerAdapter(this)
 
-        binding.button1.setOnClickListener {
-            supportFragmentManager.beginTransaction().apply {
-                replace(container.id, WebViewFragment())
-                    .commit()
-            }
-        }
+        TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
+            run {
+                val textView = TextView(this@MainActivity)
+                textView.text = "position $position"
+                textView.gravity = Gravity.CENTER
 
-        binding.button2.setOnClickListener {
-            supportFragmentManager.beginTransaction().apply {
-                replace(container.id, BFragment())
-                    .commit()
+                tab.customView = textView
+                //tab.text =
             }
-        }
+        }.attach()
 
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                val currentFragment = supportFragmentManager.fragments[0]
+                val currentFragment = supportFragmentManager.fragments[binding.viewPager.currentItem]
                 if(currentFragment is WebViewFragment) {
                     if(currentFragment.canGoBack()) {
                         currentFragment.goBack()
