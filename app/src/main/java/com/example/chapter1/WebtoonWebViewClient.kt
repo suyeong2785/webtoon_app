@@ -11,10 +11,10 @@ import android.widget.ProgressBar
 class WebtoonWebViewClient(
     private val progressBar: ProgressBar,
     private val saveData: (String) -> Unit
-) : WebViewClient(){
+) : WebViewClient() {
 
     override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
-        if(request != null && request.url.toString().contains("comic.naver.com/webtoon/detail")) {
+        if (request != null && request.url.toString().contains("comic.naver.com/webtoon/detail")) {
             saveData.invoke(request.url.toString())
         }
 
